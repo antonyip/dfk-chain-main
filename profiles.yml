@@ -1,0 +1,16 @@
+default:
+  target: public
+  outputs:
+    public:
+      type: postgres
+      host: 132.145.212.165
+      port: 5432
+      user: "{{ env_var('DB_USERNAME') }}"
+      pass: "{{ env_var('DB_PASSWORD') }}"
+      dbname: dfkchain
+      schema: public
+      threads: 4
+      client_session_keep_alive: False
+      query_tag: dfkchain
+  config:
+    send_anonymous_usage_stats: False

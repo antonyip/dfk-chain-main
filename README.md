@@ -6,7 +6,7 @@ What's dfkchain? Learn more [here](https://info.defikingdoms.com/)
 
 ## Setup
 
-1. [PREREQUISITE] Download [Docker for Desktop](https://www.docker.com/products/docker-desktop).
+1. https://get.docker.com/
 2. Create a `.env` file with the following contents (note `.env` will not be commited to source):
 
 ```

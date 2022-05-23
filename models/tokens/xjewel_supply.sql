@@ -16,7 +16,7 @@ raw_mints as (
                 LEADING '0'
                 from
                 substr(data,3)
-            ))::float / pow(10,18) as valuee
+            ))::numeric / pow(10,18) as valuee
     from logs
     where topic0 = '0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef'
         and address = lower('0x77f2656d04E158f915bC22f07B779D94c1DC47Ff') -- xjewel
@@ -30,7 +30,7 @@ raw_burns as (
                 LEADING '0'
                 from
                 substr(data,3)
-            ))::float / pow(10,18) as valuee
+            ))::numeric / pow(10,18) as valuee
     from logs
     where topic0 = '0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef'
         and address = lower('0x77f2656d04E158f915bC22f07B779D94c1DC47Ff') -- xjewel

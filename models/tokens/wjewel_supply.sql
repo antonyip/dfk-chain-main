@@ -2,7 +2,7 @@
     config(
         materialized='table',
         unique_key='day_date',
-        tags=['core'],
+        tags=['core','hour6'],
         cluster_by=['block_timestamp']
     )
 }}

@@ -2,7 +2,7 @@
     config(
         materialized='incremental',
         unique_key='day_date',
-        tags=['core', 'sync'],
+        tags=['core', 'sync', 'daily'],
         cluster_by=['day_date']
     )
 }}

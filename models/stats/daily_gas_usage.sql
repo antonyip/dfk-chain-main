@@ -14,7 +14,8 @@ daily_fees as (
         date_trunc('day', timestamp) as day_date,
         sum(gas_used)/1000000000 as tx_fees
     from blocks
-    where number > 0
+    where {{ incremental_last_x_days('timestamp', 2) }}
+        and number > 0
     group by 1
     order by 1
 )

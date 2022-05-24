@@ -12,6 +12,7 @@ select
     count(1) as number_of_transactions
 from transactions t
 join blocks b on b.number = t.block_number
-where b.number > 0
+where {{ incremental_last_x_days('timestamp', 2) }}
+    and b.number > 0
 group by 1
 order by 1

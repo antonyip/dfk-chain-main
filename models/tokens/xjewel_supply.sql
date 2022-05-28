@@ -1,8 +1,8 @@
 {{
     config(
-        materialized='table',
+        materialized='incremental',
         unique_key='day_date',
-        tags=['core','hour6'],
+        tags=['core','hour6','mints'],
         cluster_by=['block_timestamp']
     )
 }}
@@ -18,7 +18,8 @@ raw_mints as (
                 substr(data,3)
             ))::numeric / pow(10,18) as valuee
     from logs
-    where topic0 = '0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef'
+    where {{ incremental_last_x_days('day_date', 2) }}
+        and topic0 = '0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef'
         and address = lower('0x77f2656d04E158f915bC22f07B779D94c1DC47Ff') -- xjewel
         and topic1 = '0x0000000000000000000000000000000000000000000000000000000000000000' -- mint
 ),
@@ -32,7 +33,8 @@ raw_burns as (
                 substr(data,3)
             ))::numeric / pow(10,18) as valuee
     from logs
-    where topic0 = '0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef'
+    where {{ incremental_last_x_days('day_date', 2) }}
+        and topic0 = '0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef'
         and address = lower('0x77f2656d04E158f915bC22f07B779D94c1DC47Ff') -- xjewel
         and topic2 = '0x0000000000000000000000000000000000000000000000000000000000000000' -- burn
 ),
@@ -62,11 +64,7 @@ final as (
     select
         final_day_date,
         final_mint,
-        final_burn,
-        sum(final_mint) over (order by final_day_date) as jewel_on_chain_minted,
-        sum(final_burn) over (order by final_day_date) as jewel_on_chain_burnt,
-        final_mint - final_burn as daily_jewel_supply,
-        sum(final_mint - final_burn) over (order by final_day_date) as current_jewel_in_circulation
+        final_burn
     from combine
 )
 

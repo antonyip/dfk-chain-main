@@ -13,3 +13,4 @@ select
     day_date,
     token1 / token0 as price
 from {{ ref('crystal_usdc_sync') }}
+where {{ incremental_last_x_days('day_date', 2) }}

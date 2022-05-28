@@ -12,6 +12,7 @@ with c_price as (
         day_date,
         price
     from {{ ref('crystal_price') }}
+    where {{ incremental_last_x_days('day_date', 2) }}
 )
 
 -- token0 is crystal

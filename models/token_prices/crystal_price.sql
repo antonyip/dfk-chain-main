@@ -1,6 +1,6 @@
 {{
     config(
-        materialized='incremental',
+        materialized='table',
         unique_key='day_date',
         tags=['core', 'price', 'daily'],
         cluster_by=['day_date']
@@ -13,4 +13,3 @@ select
     day_date,
     token1 / token0 as price
 from {{ ref('crystal_usdc_sync') }}
-where {{ incremental_last_x_days('day_date', 2) }}

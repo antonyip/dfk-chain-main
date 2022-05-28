@@ -1,7 +1,7 @@
 {{
     config(
         materialized='incremental',
-        unique_key='day_date',
+        unique_key='final_day_date',
         tags=['core','hour6','mints'],
         cluster_by=['block_timestamp']
     )
@@ -18,7 +18,7 @@ raw_mints as (
                 substr(data,3)
             ))::numeric / pow(10,18) as valuee
     from logs
-    where {{ incremental_last_x_days('day_date', 2) }}
+    where {{ incremental_last_x_days('block_timestamp', 2) }}
         and topic0 = '0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef'
         and address = lower('0xB57B60DeBDB0b8172bb6316a9164bd3C695F133a') -- avax
         and topic1 = '0x0000000000000000000000000000000000000000000000000000000000000000' -- mint
@@ -33,7 +33,7 @@ raw_burns as (
                 substr(data,3)
             ))::numeric / pow(10,18) as valuee
     from logs
-    where {{ incremental_last_x_days('day_date', 2) }}
+    where {{ incremental_last_x_days('block_timestamp', 2) }}
         and topic0 = '0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef'
         and address = lower('0x04b9dA42306B023f3572e106B11D82aAd9D32EBb') -- crystal
         and topic2 = '0x0000000000000000000000000000000000000000000000000000000000000000' -- burn

@@ -3,7 +3,7 @@ default:
   outputs:
     public:
       type: postgres
-      host: 132.145.212.165
+      host: 205.209.120.178
       port: 5432
       user: "{{ env_var('DB_USERNAME') }}"
       pass: "{{ env_var('DB_PASSWORD') }}"

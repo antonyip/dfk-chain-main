@@ -11,11 +11,10 @@ with
 
 daily_fees as (
     select 
-        date_trunc('day', timestamp) as day_date,
-        sum(gas_used)/1000000000 as tx_fees
-    from blocks
-    where {{ incremental_last_x_days('timestamp', 2) }}
-        and number > 0
+        date_trunc('day', block_timestamp) as day_date,
+        sum(receipt_gas_used * receipt_effective_gas_price / pow(10,18)) as tx_fees
+    from transactions
+    where {{ incremental_last_x_days('block_timestamp', 2) }}
     group by 1
     order by 1
 )

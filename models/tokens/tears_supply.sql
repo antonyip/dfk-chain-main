@@ -16,7 +16,7 @@ raw_mints as (
                 LEADING '0'
                 from
                 substr(data,3)
-            ))::numeric / pow(10,18) as valuee
+            ))::numeric / 1 as valuee
     from logs
     where {{ incremental_last_x_days('block_timestamp', 2) }}
         and topic0 = '0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef'
@@ -31,11 +31,11 @@ raw_burns as (
                 LEADING '0'
                 from
                 substr(data,3)
-            ))::numeric / pow(10,18) as valuee
+            ))::numeric / 1 as valuee
     from logs
     where {{ incremental_last_x_days('block_timestamp', 2) }}
         and topic0 = '0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef'
-        and address = lower('0x58E63A9bbb2047cd9Ba7E6bB4490C238d271c278') -- crystal
+        and address = lower('0x58E63A9bbb2047cd9Ba7E6bB4490C238d271c278') -- tears
         and topic2 = '0x0000000000000000000000000000000000000000000000000000000000000000' -- burn
 ),
 mints as (

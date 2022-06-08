@@ -12,7 +12,7 @@ with
 daily_fees as (
     select 
         date_trunc('day', block_timestamp) as day_date,
-        sum(receipt_gas_used * receipt_effective_gas_price / pow(10,18)) as tx_fees
+        sum(receipt_gas_used / pow(10,18) * receipt_effective_gas_price ) as tx_fees
     from transactions
     where {{ incremental_last_x_days('block_timestamp', 2) }}
     group by 1
